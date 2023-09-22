@@ -1,5 +1,5 @@
 # AlliRound
-This a repository for the Alliround Social Media Application.
+This a repository for the Alliround Technologies Application.
  * Copyright (C) Alliround Technologies, LLC - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
