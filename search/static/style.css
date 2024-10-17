@@ -1,0 +1,269 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Blue line on top */
+.navbar::before {
+    content: ""; /* No text content */
+    position: fixed; /* Position absolutely within the navbar */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left */
+    width: 100%; /* Full width of the navbar */
+    height: 5px; /* Height of the blue line */
+    background-color: #3498db; /* Blue color for the line */
+}
+
+.navbar {
+    width: 100%;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    position: fixed;
+    background-color: white;
+}
+
+.nav-contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-title {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+.navbar-logo {
+    margin-top: 10px;
+    align-items: start;
+    width: 60%; /* Adjust size as needed */
+    height: auto;
+}
+
+.nav-account {
+    display: flex;
+    align-items: center;
+}
+
+.nav-login {
+    background-color: white; /* Adjust as needed */
+    color: #068cd0;
+    border: solid;
+    border-color: #068cd0;
+    padding: 10px 20px; /* Adjust padding as needed */
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+.nav-signup {
+    background-color: #068cd0; /* Adjust as needed */
+    color: white;
+    border: solid;
+    border-color: rgb(228, 226, 226);
+    padding: 10px 20px; /* Adjust padding as needed */
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px; /* Adjust font size as needed */
+    white-space: nowrap;
+}
+
+.navbar::after {
+    content: ''; /* No text, just a line */
+    display: block; /* Make it a block element */
+    height: 2px; /* Thickness of the line */
+    background-color: #ccc; /* Grey color for the line */
+    position: absolute; /* Position it absolutely within the navbar */
+    bottom: 0; /* Align it to the bottom of the navbar */
+    left: 0; /* Align it to the left edge */
+    width: 100%; /* Full width of the navbar */
+}
+
+
+.container {
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center; 
+    box-sizing: border-box;
+}
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+
+}
+
+/* Search Page */ 
+
+.search-form {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px; /* Adjust as needed */
+    margin-top: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 45%; /* Allows form groups to take equal space */
+    margin-right: 10px; /* Space between form groups */
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px; /* Adjust the height as needed */
+}
+
+.button-group {
+    display: flex;
+    align-items: flex-start; /* Align the button at the top of the form */
+}
+
+.button-group button {
+    margin-top: 20px; 
+    padding: 10px;
+    background-color: #068cd0; /* Adjust as needed */
+    color: white;
+    border: solid;
+    border-color: rgb(228, 226, 226);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    height: fit-content; /* Ensure button height doesn't stretch */
+}
+
+button:hover {
+    background-color: #1885bb;
+} 
+
+/* Results */ 
+
+h1 {
+    font-size: 15px;
+    color: #333;
+    text-align: left;
+    margin-top: 20px; /* Space above the heading */
+    margin-bottom: 20px; /* Space below the heading */
+    padding: 10px; /* Space inside the heading */
+}
+
+
+/* Spinner container */
+.spinner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none; /* Hide by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it's on top of everything */
+}
+
+.spinner-container.show {
+    display: flex; /* Show spinner */
+}
+
+/* Spinner */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.search_results {
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center; 
+    box-sizing: border-box;
+}
+
+.search_results {
+    display: flex;
+    flex-direction: column; /* Stack child elements vertically */
+    gap: 20px; /* Space between header and table */
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 12em;
+    padding-right: 12em;
+    /* display: flex; */
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* Header style */
+.result_route {
+    /* Any additional styling for the header */
+}
+
+/* Table container style 
+.results_table {
+    
+    overflow-x: auto; 
+} */ 
+/* Add horizontal scrolling if the table is too wide */
+/* Ensure the table takes up available space and is styled as needed */
+
+
+
+/* Table styling for better visuals */
+.results_table table {
+    width: 100%;
+    border-collapse: collapse; /* Remove gaps between table cells */
+}
+
+.results_table th, .results_table td {
+    border: 1px solid #ddd; /* Light border for cells */
+    padding: 8px; /* Space inside cells */
+    text-align: left; /* Align text to the left */
+}
+
+.results_table th {
+    background-color: #f4f4f4; /* Light background for headers */
+}

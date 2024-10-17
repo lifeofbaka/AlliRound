@@ -1,8 +1,8 @@
 # git ignore
 .env
 
-/Users/ramses/Desktop/PythonProjects/MySite/mysite/secrets/
+/secrets/
 
-/Users/ramses/Desktop/PythonProjects/MySite/mysite/search/scripts/
+/search/scripts/
 
-mysite/db.sqlite3
+db.sqlite3

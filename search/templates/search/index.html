@@ -1,0 +1,95 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    {% load custom_filters %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"> <!--css reset-->
+    <title>Alliround</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-contents">
+            <div class="navbar-title">
+                <a href="{% url 'search:index' %}" target="_self">
+                    <img src="{% static 'images/Alliround.svg' %}" alt="Alliround Logo" class="navbar-logo">
+                </a>
+            </div>
+            <div class="nav-account">
+                <button class="nav-login" >Login</button>
+                <button class="nav-signup">Sign Up</button>
+            </div>
+        </div>
+
+    </nav>
+    {% if form %}
+        <div class="container">
+
+            <form id="form" class="search-form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="departure_text">Departure: </label>
+                    {{ form.departure_text }}
+                </div>
+                <div class="form-group">
+                    <label for="arrival_text">Arrival: </label>
+                    {{ form.arrival_text}}
+                </div>
+                <div class="form-group">
+                    <label for="departure_date">Departure Date: </label>
+                    {{ form.departure_date }}
+                </div>
+                <div class="form-group">
+                    <label for="return_date">Return Date: </label>
+                    {{ form.return_date}}
+                </div>
+                <div class="button-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+
+            <div class="spinner-container" id="spinner">
+                <div class="spinner"></div>
+            </div>
+        </div>  
+        <script src="{% static 'scripts.js' %}"></script>
+    {% else %}
+        <div class="search_results">
+            <div class="result_route"><h1>{{ result }}</h1></div>
+            <div class="results_table">
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Duration</th>
+                        <th>Main</th>
+                        <th>Premium</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range %}
+                        <tr>
+                            <td>{{ flight_results.origin_code|show_items:i }}</td>
+                            <td>{{ flight_results.destination_code|show_items:i }}</td>
+                            <td>{{ flight_results.origin_depart_time|show_items:i }}</td>
+                            <td>{{ flight_results.destination_arrival_time|show_items:i }}</td>
+                            <td>{{ flight_results.duration|show_items:i }}</td>
+                            <td>{{ flight_results.main_cabin_min|show_items:i }}</td>
+                            <td>{{ flight_results.premium_cabin_min|show_items:i }}</td>
+                        </tr>
+                    
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>
