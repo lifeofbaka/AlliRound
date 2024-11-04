@@ -52,7 +52,7 @@ CSRF_TRUSTED_ORIGINS = ['https://fee7-147-70-17-36.ngrok-free.app']
 
 INSTALLED_APPS = [
     "rest_framework",
-    "search.apps.SearchConfig",
+    "flights.apps.SearchConfig",
     "polls.apps.PollsConfig",
     "django.contrib.admin",
     "django.contrib.auth",

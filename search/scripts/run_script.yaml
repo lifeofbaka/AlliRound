@@ -1,3 +1,0 @@
-#cloud-config
-runcmd:
-  - echo "Running Test Script" > /var/log/cloud-init-output.log
