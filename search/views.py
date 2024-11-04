@@ -15,6 +15,7 @@ from rest_framework import status
 import json
 import time
 import subprocess
+import itertools
 from datetime import datetime
 import sys
 import os
@@ -35,9 +36,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Create your views here.
 
-
+@csrf_exempt
 def index(request):
     if request.method == 'POST':
+        data = json.loads(request.body)
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+
+        print(latitude,longitude)
         form = FlightSearchForm(request.POST)
         if form.is_valid():
             flight_search = form.save()
@@ -138,6 +144,7 @@ def index(request):
                         print(f"Connection has not been searched today:  {item}")
                         chunks_to_Search.append(item)
 
+                # the results in the nodes needs to be greater than 0 
                 if len(chunks_to_Search) > 0: 
                     
                     def divide_chunks(l, n):
@@ -145,24 +152,25 @@ def index(request):
                         for i in range(0, len(l), n): 
                             yield l[i:i + n]
 
-                    def flight_search_request(url, criteria):
-
+                    def flight_search_request(url, item):
+                        criteria = '/?data=' + item
+                        # print(criteria)
                         complete_url = url + criteria
                         while True: 
                             result = requests.get(complete_url)
                             if result.text != 'Service Unavailable': # check if container failed to load if not retry 
                                 break  
                         results_dict = json.loads(result.text)
-                        with ThreadPoolExecutor() as executor:  # not necessary for 1 item chunks 
-                            if list(results_dict.values())[0] == 'Failed': # this only works for 1 item chunks if the chunk sized is changed it will fail
-                                    flight_search_request(url, list(results_dict.keys())[0])
+                       # not necessary for 1 item chunks 
+                        if list(results_dict.values())[0] == 'Failed': # this only works for 1 item chunks if the chunk sized is changed it will fail
+                            flight_search_request(url, list(results_dict.keys())[0])
                     
 
                     # TODO ======= Determine the best way to divde chunks ========
                     n = len(chunks_to_Search)
                     
                     chunk_lists = list(divide_chunks(chunks_to_Search, 1)) # the number of items in each chunks 
-                    print("Chunks: ", chunk_lists, "|  Searches per chunk: ", [len(i) for i in chunk_lists])
+                    # print("Chunks: ", chunk_lists, "|  Searches per chunk: ", [len(i) for i in chunk_lists])
 
                     
                     url = 'https://flight-search-test-159539856046.us-central1.run.app' 
@@ -171,9 +179,7 @@ def index(request):
                     with ThreadPoolExecutor() as executor:  
                         for item in chunk_lists:
                             item = ",".join(["_".join(i) for i in item])
-                            criteria = '/?data=' + item
-                            print(criteria)
-                            futures.append(executor.submit(flight_search_request, url, criteria))
+                            futures.append(executor.submit(flight_search_request, url, item))
 
                     # add all completed search criteria to the searches breakdown table in database 
                     for item in chunks_to_Search: 
@@ -207,17 +213,6 @@ def index(request):
                 """
                                     
 
-            # TODO ==== Join Search Results Stored in Cache ====
-                    
-
-            # Get results from the VM or process as needed
-            
-
-            end_time = time.time()
-
-            # Calculate the elapsed time
-            print(end_time - start_time)
-
             combined_results_df = pd.DataFrame()
             search_result = {} 
             for item in chunks: 
@@ -230,16 +225,72 @@ def index(request):
 
                 combined_results_df = pd.concat((combined_results_df, pd.DataFrame(combined_dict)), axis=0, ignore_index=True)
 
+            
             result =combined_results_df.to_dict()
 
-            length =len(result['origin_code']) # used to iterate dict 
-            # result = "Hello World"
+            # print(result.keys())
 
+
+            
+            for i in result['main_cabin_min']: 
+                if str(result['main_cabin_min'][i].split("$")[-1].split(', ')[0]) != 'Not available':
+                    result['main_cabin_min'][i] = '$' + str(result['main_cabin_min'][i].split("$")[-1].split(', ')[0])
+                else:
+                    result['main_cabin_min'][i] = str(result['main_cabin_min'][i].split("$")[-1].split(', ')[0])
+            
+            for i in result['premium_cabin_min']: 
+                if str(result['premium_cabin_min'][i].split("$")[-1].split(', ')[0]) != 'Not available':
+                    result['premium_cabin_min'][i] = '$' + str(result['premium_cabin_min'][i].split("$")[-1].split(', ')[0])
+                else:
+                    result['premium_cabin_min'][i] = str(result['premium_cabin_min'][i].split("$")[-1].split(', ')[0])
+
+
+
+            # TODO ==== Join Search Results Stored in Cache ====
+            # map routes and prices to a user view dictionary
+            user_view_result = {}
+            for route in available_routes: 
+                route_flights =  []
+                [route_flights.append(i) for i in list(itertools.chain.from_iterable(route[0])) if i not in route_flights]
+                
+                
+                # print(route_flights)
+                
+                if len(route[0]) > 1: 
+                    for n in range(len(route[0])): 
+
+                        # TODO ==== create logic for routes with multiple flights 
+                        pass
+                else:
+                    for flight in route[0]:
+                        # find the outbound flights from the loaded cache 
+                        outbound_flights = combined_results_df.loc[(combined_results_df['origin_code'] == flight[0]) & (combined_results_df['destination_code'] == flight[1])][['main_cabin_min', 'origin_depart_time', 'destination_arrival_time']]
+                        
+                        # add route and outbound to dictionary 
+                        user_view_result['Route'] = [route_flights for i in range(len(outbound_flights))]
+                        
+                        
+                        
+                        # TODO ==== Create logic to return the cheapest flight if one way combination is greater price than round trip ====
+
+                        return_flights = combined_results_df.loc[(combined_results_df['origin_code'] == flight[1]) & (combined_results_df['destination_code'] == flight[0])][['main_cabin_min', 'origin_depart_time', 'destination_arrival_time']]
+                        
+                
+
+            end_time = time.time()
+
+            # Calculate the elapsed time
+            print(end_time - start_time)
+
+            length =len(result['origin_code']) # used to iterate dict in user view
 
 
             return render(request, 'search/index.html', { 
                                                             'flight_results': result, #dict of results
-                                                            'range': range(length)
+                                                            'range': range(length),
+                                                            'origin': form.cleaned_data['departure_text'],
+                                                            'destination': form.cleaned_data['arrival_text'],
+                                                            'departure_date': str(form.cleaned_data['departure_date'].strftime("%A, %B %d, %Y")),
                                                             })  # Redirect to a list view or success page
         
 
@@ -297,7 +348,7 @@ def search_api_view(request):
             if not result:
                 return Response({'error': 'No result data provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-            print("Payload: ", result)
+            # print("Payload: ", result)
             
             for i in range(len(result['origin_code'])): 
                 search_result = FlightSearchCache(origin_code=result['origin_code'][i],
