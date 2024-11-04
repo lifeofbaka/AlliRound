@@ -51,7 +51,7 @@
 }
 
 .nav-login {
-    background-color: white; /* Adjust as needed */
+    background-color: transparent; /* Adjust as needed */
     color: #068cd0;
     border: solid;
     border-color: #068cd0;
@@ -75,6 +75,23 @@
     white-space: nowrap;
 }
 
+.nav-options{
+    margin-top: 5px;;
+    font-weight: bold;
+    background-color: transparent; /* Adjust as needed */
+    color: #014567;
+    border: none;
+    padding: 10px 20px; /* Adjust padding as needed */
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+.nav-options:hover{
+    background-color: transparent; 
+}
+
 .navbar::after {
     content: ''; /* No text, just a line */
     display: block; /* Make it a block element */
@@ -89,7 +106,7 @@
 
 .container {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 60px;
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 20px;
@@ -173,9 +190,14 @@ h1 {
     text-align: left;
     margin-top: 20px; /* Space above the heading */
     margin-bottom: 20px; /* Space below the heading */
-    padding: 10px; /* Space inside the heading */
+    /* padding: 10px;  Space inside the heading */
 }
 
+
+.result_date {
+    font-size: 15px;
+    color: #9f9f9f;
+}
 
 /* Spinner container */
 .spinner-container {
@@ -239,6 +261,7 @@ h1 {
 
 /* Header style */
 .result_route {
+    padding-top: 50px;
     /* Any additional styling for the header */
 }
 
@@ -252,18 +275,123 @@ h1 {
 
 
 
-/* Table styling for better visuals */
-.results_table table {
+.result_header, .results_table {
+    display: grid;
+    align-items: center;
+    width: 100%; /* Full width */
+    padding: 10px;
+    padding-bottom: 0;
+} 
+
+.result_header {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    border-bottom: 2px solid #ccc; /* Optional: separate header visually */
+    margin-bottom: 15px;
+}
+
+.button_sort_main {
+    background-color: #068cd0; /* Adjust as needed */
+    border-radius: 10px 10px 0px 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
     width: 100%;
-    border-collapse: collapse; /* Remove gaps between table cells */
 }
 
-.results_table th, .results_table td {
-    border: 1px solid #ddd; /* Light border for cells */
-    padding: 8px; /* Space inside cells */
-    text-align: left; /* Align text to the left */
+.button_sort_main:hover{
+    background-color: #068cd0;
 }
 
-.results_table th {
-    background-color: #f4f4f4; /* Light background for headers */
+.button_sort_premium {
+    background-color: #04344c; /* Adjust as needed */
+    border-radius: 10px 10px 0px 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    width: 100%;
+}
+
+.button_sort_premium:hover{
+    background-color: #04344c;
+}
+
+
+.result_large { 
+    width: 58.3333333333%;
+    justify-content: space-between;
+    height: 70px;
+    /* color: #0065fd; */
+    font-family: AmericanSansMedium, Calibri, Helvetica, Arial, sans-serif;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+}
+
+.result_app_grid {
+    justify-content: space-between;
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 10px;
+    border: 1px solid;
+    border-color: #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 1px 5px 01px rgba(0, 0, 0, 0.3);
+}
+
+.result_image{
+    display: flex;
+}
+
+.result_img {
+    height: auto;
+    width: 4%;
+    padding-bottom: 10px;
+}
+
+.result_contents { 
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.arrow {
+    padding-top: 8px;
+}
+
+.origin_code { 
+    font-weight: bold;
+}
+
+.destination_code { 
+    font-weight: bold;
+}
+
+
+/* button */
+.main-min {
+    width: 50%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+/* button */
+.premium-min {
+    width: 45%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.main-min:hover { 
+    background-color: transparent;
+}
+
+.premium-min:hover { 
+    background-color: transparent;
 }
