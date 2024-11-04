@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"> <!--css reset-->
+    <script src="{% static 'location.js' %}"></script>
     <title>Alliround</title>
 </head>
 <body>
@@ -19,7 +20,14 @@
                     <img src="{% static 'images/Alliround.svg' %}" alt="Alliround Logo" class="navbar-logo">
                 </a>
             </div>
+            <div>
+                
+            </div>
             <div class="nav-account">
+                <button class="nav-options">Community</button>
+                <button class="nav-options">Shop</button>
+                <button class="nav-options">Transportation</button>
+                <button class="nav-options">Travel</button>
                 <button class="nav-login" >Login</button>
                 <button class="nav-signup">Sign Up</button>
             </div>
@@ -59,35 +67,62 @@
         <script src="{% static 'scripts.js' %}"></script>
     {% else %}
         <div class="search_results">
-            <div class="result_route"><h1>{{ result }}</h1></div>
-            <div class="results_table">
-                <table border="1">
-                    <thead>
-                    <tr>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Departure</th>
-                        <th>Arrival</th>
-                        <th>Duration</th>
-                        <th>Main</th>
-                        <th>Premium</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in range %}
-                        <tr>
-                            <td>{{ flight_results.origin_code|show_items:i }}</td>
-                            <td>{{ flight_results.destination_code|show_items:i }}</td>
-                            <td>{{ flight_results.origin_depart_time|show_items:i }}</td>
-                            <td>{{ flight_results.destination_arrival_time|show_items:i }}</td>
-                            <td>{{ flight_results.duration|show_items:i }}</td>
-                            <td>{{ flight_results.main_cabin_min|show_items:i }}</td>
-                            <td>{{ flight_results.premium_cabin_min|show_items:i }}</td>
-                        </tr>
+
+
+            <div class="result_header" role="group"> 
+                <div> 
+                    <div class="result_route">
+                        <h4>Depart</h4>
+                        <h3>{{origin}} to {{destination}}</h3>
+                        <h3 class="result_date">{{departure_date}}</h4>
+                    </div>
+                </div>
+                <div class="result_large">
+                    <button class="button_sort_main">
+                        <span>Main</span>
+                    </button>
+                    <button class="button_sort_premium">
+                        <span>Premium</span>
+                    </button>
                     
+                </div>
+                
+            </div>
+
+            <div class="results_table">
+                
+                
+                        {% for i in range %}
+                        <app-details class="result_app_grid">
+                            <div class="grid_x_details">
+                                <div class="result_image">
+                                    <img src="{% static 'images/AA.png' %}" alt="AA Logo" class="result_img">
+                                </div>
+                                <div class="result_contents">
+                                    <div>
+                                        <div class="origin_code">{{ flight_results.origin_code|show_items:i }}</div>
+                                        <div>{{ flight_results.origin_depart_time|show_items:i }}</div>
+                                    </div>
+                                    <div class="arrow">&rarr;</div>
+                                    <div>
+                                        <div class="destination_code">{{ flight_results.destination_code|show_items:i }}</div>
+                                        <div>{{ flight_results.destination_arrival_time|show_items:i }}</div>
+                                    </div>
+                                    <div>{{ flight_results.duration|show_items:i }}</div>
+                            
+
+                                <div class="result_large">
+                                    <button class="main-min">
+                                        <div>{{ flight_results.main_cabin_min|show_items:i }}</div>
+                                    </button>
+                                    <button class="premium-min">
+                                        <div>{{ flight_results.premium_cabin_min|show_items:i }}</div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </app-details>
                         {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </div>
     {% endif %}
