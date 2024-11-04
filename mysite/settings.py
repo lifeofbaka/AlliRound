@@ -39,12 +39,12 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '127.0.0.1', '127.0.0.1:8000', '12b6-2607-fb90-794b-953-7004-a109-a28d-987b.ngrok-free.app']
+ALLOWED_HOSTS = [ '127.0.0.1', '127.0.0.1:8000', 'fee7-147-70-17-36.ngrok-free.app']
 
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SAMESITE = 'Lax'# or 'None' if needed for cross-domain
 
-CSRF_TRUSTED_ORIGINS = ['https://12b6-2607-fb90-794b-953-7004-a109-a28d-987b.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://fee7-147-70-17-36.ngrok-free.app']
 
 
 
